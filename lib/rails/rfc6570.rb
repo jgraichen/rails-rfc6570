@@ -168,7 +168,7 @@ module Rails
 
       def method_missing(mth, *args, &block)
         if mth =~ /^(\w+)_rfc6570$/
-          rails_route $1
+          rfc6570_route $1
         else
           super
         end
