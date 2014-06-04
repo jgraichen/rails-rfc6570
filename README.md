@@ -89,7 +89,7 @@ class UserDecorator < Draper::Decorator
 end
 ```
 
-This gem does not support every possible construct possible with route matchers especially nested groups cannot be expressed in URI templates. It also makes some assumptions when converting splat matchers like swallowing a multiple slashes.
+This gem does not support every construct possible with route matchers especially nested groups cannot be expressed in URI templates. It also makes some assumptions when converting splat matchers like swallowing a multiple slashes.
 
 You can also combine **Rails::RFC6570** with [rack-link_headers](https://jgraichen/rack-link_headers) and provide Hypermedia-linking everywhere!
 
