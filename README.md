@@ -30,7 +30,7 @@ class ApplicationController < ActionController::API
 end
 ```
 
-**Pro Tip**: Append `_url` to the route names: `rfc6570_routes.map{|n,r| ["#{n}_url", r]}.to_h`
+**Pro Tip**: Append `_url` to the route names: `rfc6570_routes.map{|n,r| ["#{n}_url", r]}.to_h`.
 
 By default the `format` placeholder is ignored and the HTTP host will be included in the URI template.
 
