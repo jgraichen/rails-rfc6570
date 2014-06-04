@@ -63,9 +63,9 @@ the root action will return something similar to the following JSON:
 
 ```json
 {
-users: "http://localhost:3000/users{?query,email,active}",
-user: "http://localhost:3000/users/{id}",
-root: "http://localhost:3000/"
+"users": "http://localhost:3000/users{?query,email,active}",
+"user": "http://localhost:3000/users/{id}",
+"root": "http://localhost:3000/"
 }
 ```
 
@@ -88,6 +88,8 @@ class UserDecorator < Draper::Decorator
   end
 end
 ```
+
+This gem does not support every possible construct possible with route matchers especially nested groups cannot be expressed in URI templates. It also makes some assumptions when converting splat matchers like swallowing a multiple slashes.
 
 You can also combine **Rails::RFC6570** with [rack-link_headers](https://jgraichen/rack-link_headers) and provide Hypermedia-linking everywhere!
 
