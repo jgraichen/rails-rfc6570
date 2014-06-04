@@ -1,4 +1,4 @@
-require 'rails/routes/version'
+require 'rails/rfc6570/version'
 
 module ActionDispatch
   module Journey
@@ -27,7 +27,7 @@ module ActionDispatch
             action     = route.defaults[:action].to_s
 
             if controller.present? && action.present?
-              params = Rails::Routes.params_for(controller, action)
+              params = Rails::RFC6570.params_for(controller, action)
               str += '{?' + params.join(',') + '}' if params && params.any?
             end
           end
@@ -101,8 +101,8 @@ module Rails
   module RFC6570
     if defined?(::Rails::Railtie)
       class Railtie < Rails::Railtie # :nodoc:
-        initializer 'rails-routes', :group => :all do |app|
-          require 'rails/routes/patches'
+        initializer 'rails-rfc6570', :group => :all do |app|
+          require 'rails/rfc6570/patches'
 
           ActiveSupport.on_load(:action_controller) do
             include Rails::RFC6570::Helper
