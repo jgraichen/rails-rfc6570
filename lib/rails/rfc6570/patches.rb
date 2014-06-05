@@ -3,6 +3,12 @@ require 'action_dispatch/journey'
 require 'addressable/template'
 
 module Addressable
+  class URI
+    def as_json(*)
+      to_s
+    end
+  end
+
   class Template
     def to_s
       pattern

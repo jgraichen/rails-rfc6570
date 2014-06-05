@@ -8,6 +8,7 @@ module ActionDispatch
           super()
 
           @opts        = opts
+          @stack       = []
           @group_depth = 0
         end
 
@@ -35,6 +36,13 @@ module ActionDispatch
           str
         end
 
+        def visit(node)
+          @stack.unshift node.type
+          super node
+        ensure
+          @stack.shift
+        end
+
         def symbol_name(node)
           name = node.to_s.tr '*:', ''
 
@@ -45,10 +53,10 @@ module ActionDispatch
           end
         end
 
-        def placeholder(node, prefix = nil, suffix = nil)
+        def placeholder(node, prefix = nil, suffix = nil, pretext = nil)
           name = symbol_name node
           if name
-            "{#{prefix}#{name}#{suffix}}"
+            "#{pretext}{#{prefix}#{name}#{suffix}}"
           else
             ''
           end
@@ -61,16 +69,16 @@ module ActionDispatch
         def binary(node)
           case [node.left.type, node.right.type]
             when [:DOT, :SYMBOL]
-              if @group_depth == 0
-                '.' + placeholder(node.right)
-              else
+              if @stack[0..1] == [:CAT, :GROUP]
                 placeholder node.right, '.'
+              else
+                placeholder(node.right, nil, nil, '.')
               end
             when [:SLASH, :SYMBOL]
-              if @group_depth == 0
-                '/' + placeholder(node.right)
-              else
+              if @stack[0..1] == [:CAT, :GROUP]
                 placeholder(node.right, '/')
+              else
+                placeholder(node.right, nil, nil, '/')
               end
             when [:SLASH, :STAR]
               placeholder node.right, '/', '*'
