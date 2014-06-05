@@ -9,5 +9,5 @@ gem 'rake'
 gem 'rspec', '~> 3.0'
 gem 'coveralls'
 
-gem 'railties', '>= 3.2', '< 5', require: 'rails'
+gem 'railties', '>= 4', '< 5', require: 'rails'
 gem 'rspec-rails'
