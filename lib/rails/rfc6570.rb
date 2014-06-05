@@ -115,7 +115,8 @@ module Rails
           ActiveSupport.on_load(:action_controller) do
             include Rails::RFC6570::Helper
             extend Rails::RFC6570::ControllerExtension
-            Rails.application.routes.url_helpers.include Rails::RFC6570::UrlHelper
+            Rails.application.routes.url_helpers.send :include,
+              Rails::RFC6570::UrlHelper
           end
         end
       end
