@@ -176,10 +176,16 @@ module Rails
       end
 
       def method_missing(mth, *args, &block)
-        if mth =~ /^(\w+)_rfc6570$/
-          rfc6570_route $1
-        else
-          super
+        opts = args.first || {}
+        case mth
+          when /^(\w+)_path_rfc6570$/
+            rfc6570_route $1, opts.merge(path_only: true)
+          when /^(\w+)_url_rfc6570$/
+            rfc6570_route $1, opts.merge(path_only: false) # independent of whatever future defaults
+          when /^(\w+)_rfc6570$/
+            rfc6570_route $1, opts
+          else
+            super
         end
       end
     end

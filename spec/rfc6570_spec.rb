@@ -29,6 +29,8 @@ class APIController < ApplicationController
   def action
     render json: {
       template: action_rfc6570,
+      template_url: action_url_rfc6570,
+      template_path: action_path_rfc6570,
       partial: test6_rfc6570.partial_expand(title: 'TITLE'),
       expand: test6_rfc6570.expand(capture: %w(a b), title: 'TITLE')
     }
@@ -84,6 +86,14 @@ describe Rails::RFC6570, type: :request do
 
     it 'should allow to return and render templates' do
       expect(json['template']).to eq "#{host}/action{?param1,param2}"
+    end
+
+    it 'should allow to return and render url templates' do
+      expect(json['template_url']).to eq "#{host}/action{?param1,param2}"
+    end
+
+    it 'should allow to return and render path templates' do
+      expect(json['template_path']).to eq "/action{?param1,param2}"
     end
 
     it 'should allow to return and render partial expanded templates' do
