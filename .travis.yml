@@ -7,8 +7,10 @@ rvm:
 - jruby
 - rbx-2
 gemfile:
+- gemfiles/Gemfile.rails-4-2
 - gemfiles/Gemfile.rails-4-1
 - gemfiles/Gemfile.rails-4-0
 matrix:
   allow_failures:
     - rvm: rbx-2
+    - gemfile: gemfiles/Gemfile.rails-4-2
