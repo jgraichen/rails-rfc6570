@@ -1,6 +1,6 @@
 # Rails::RFC6570
 
-Pragmatical access to your Rails 4.0+ routes as RFC6570 URI templates.
+Pragmatical access to your Rails 4.0 or 4.1 routes as RFC6570 URI templates.
 
 ## Installation
 
