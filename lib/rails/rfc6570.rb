@@ -119,11 +119,22 @@ module Rails
           require 'rails/rfc6570/patches'
           require 'action_dispatch/journey'
 
+          MAJOR = Rails::VERSION::MAJOR
+          MINOR = Rails::VERSION::MINOR
+
           ::ActionDispatch::Routing::RouteSet.send :include,
             Rails::RFC6570::Extensions::RouteSet
 
+          if MAJOR == 4 && (0..1).include?(MINOR)
+            ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
+              :prepend, Rails::RFC6570::Extensions::NamedRouteCollection40
+          else
+            ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
+              :prepend, Rails::RFC6570::Extensions::NamedRouteCollection42
+          end
+
           ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
-            :prepend, Rails::RFC6570::Extensions::NamedRouteCollection
+            :include, Rails::RFC6570::Extensions::NamedRouteCollection
 
           ::ActionDispatch::Journey::Route.send :include,
             Rails::RFC6570::Extensions::JourneyRoute
@@ -151,32 +162,16 @@ module Rails
           Hash[routes.map{|n, r| [n, r.to_rfc6570(opts)] }]
         end
 
-        def helper_names
-          super + rfc6570_helpers.map(&:to_s)
-        end
-
-        def clear!
-          rfc6570_helpers.each do |helper|
-            @url_helpers_module.send :undef_method, helper
-          end
-
-          rfc6570_helpers.clear
-
-          super
-        end
-
-        def add(name, route)
+        def define_rfc6570_helpers(name, route, mod, set)
           rfc6570_name      = :"#{name}_rfc6570"
           rfc6570_url_name  = :"#{name}_url_rfc6570"
           rfc6570_path_name = :"#{name}_path_rfc6570"
 
-          if key? name
-            @url_helpers_module.send :undef_method, rfc6570_name
-            @url_helpers_module.send :undef_method, rfc6570_url_name
-            @url_helpers_module.send :undef_method, rfc6570_path_name
+          [rfc6570_name, rfc6570_url_name, rfc6570_path_name].each do |helper|
+            mod.send :undef_method, helper if mod.respond_to? helper
           end
 
-          @url_helpers_module.module_eval do
+          mod.module_eval do
             define_method(rfc6570_name) do |opts = {}|
               template = route.to_rfc6570(opts)
 
@@ -198,17 +193,36 @@ module Rails
             end
           end
 
+          set << rfc6570_name
+          set << rfc6570_url_name
+          set << rfc6570_path_name
+        end
+      end
+
+      module NamedRouteCollection40
+        def to_rfc6570(opts = {})
+          Hash[routes.map{|n, r| [n, r.to_rfc6570(opts)] }]
+        end
+
+        def add(name, route)
+          define_rfc6570_helpers name, route, @module, @helpers
           super
         end
 
         alias_method :[]=, :add
-        alias_method :clear, :clear!
+      end
 
-        private
-
-        def rfc6570_helpers
-          @rfc6570_helpers ||= Set.new
+      module NamedRouteCollection42
+        def helper_names
+          super
         end
+
+        def add(name, route)
+          define_rfc6570_helpers name, route, @url_helpers_module, @url_helpers
+          super
+        end
+
+        alias_method :[]=, :add
       end
 
       module JourneyRoute
