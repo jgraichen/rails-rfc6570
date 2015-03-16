@@ -1,12 +1,12 @@
 # Rails::RFC6570
 
-Pragmatical access to your Rails 4.0 or 4.1 routes as RFC6570 URI templates.
+Pragmatical access to your Rails 4.0 or 4.1 or 4.2 routes as RFC6570 URI templates. Since version 0.3.0 Ruby 2.0+ is required.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'rails-rfc6570', '~> 0.1'
+    gem 'rails-rfc6570', '~> 0.3'
 
 And then execute:
 
@@ -93,7 +93,7 @@ end
 
 This gem does not support every construct possible with route matchers especially nested groups cannot be expressed in URI templates. It also makes some assumptions when converting splat matchers like swallowing a multiple slashes.
 
-You can also combine **Rails::RFC6570** with [rack-link_headers](https://jgraichen/rack-link_headers) and provide Hypermedia-linking everywhere!
+You can also combine **Rails::RFC6570** with [rack-link_headers](https://github.com/jgraichen/rack-link_headers) and provide hypermedia linking everywhere!
 
 ```ruby
 class UserController < ApplicationController
