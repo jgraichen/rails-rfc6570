@@ -82,6 +82,12 @@ module ActionDispatch
               end
             when [:SLASH, :STAR]
               placeholder node.right, '/', '*'
+            when [:SLASH, :CAT]
+              if node.right.left.type == :STAR
+                placeholder(node.right.left, '/', '*') + visit(node.right.right)
+              else
+                super
+              end
             when [:CAT, :STAR]
               visit(node.left).to_s.gsub(/\/+$/, '') + placeholder(node.right, '/', '*')
             else
@@ -108,16 +114,113 @@ end
 module Rails
   module RFC6570
     if defined?(::Rails::Railtie)
-      class Railtie < Rails::Railtie # :nodoc:
+      class Railtie < ::Rails::Railtie # :nodoc:
         initializer 'rails-rfc6570', :group => :all do |app|
           require 'rails/rfc6570/patches'
+          require 'action_dispatch/journey'
 
-          ActiveSupport.on_load(:action_controller) do
+          ::ActionDispatch::Routing::RouteSet.send :include,
+            Rails::RFC6570::Extensions::RouteSet
+
+          ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
+            :prepend, Rails::RFC6570::Extensions::NamedRouteCollection
+
+          ::ActionDispatch::Journey::Route.send :include,
+            Rails::RFC6570::Extensions::JourneyRoute
+
+          ::ActionDispatch::Journey::Nodes::Node.send :include,
+            Rails::RFC6570::Extensions::JourneyNode
+
+          ::ActiveSupport.on_load(:action_controller) do
             include Rails::RFC6570::Helper
             extend Rails::RFC6570::ControllerExtension
-            Rails.application.routes.url_helpers.send :include,
-              Rails::RFC6570::UrlHelper
           end
+        end
+      end
+    end
+
+    module Extensions
+      module RouteSet
+        def to_rfc6570(opts = {})
+          routes.map{|r| r.to_rfc6570(opts) }
+        end
+      end
+
+      module NamedRouteCollection
+        def to_rfc6570(opts = {})
+          Hash[routes.map{|n, r| [n, r.to_rfc6570(opts)] }]
+        end
+
+        def helper_names
+          super + rfc6570_helpers.map(&:to_s)
+        end
+
+        def clear!
+          rfc6570_helpers.each do |helper|
+            @url_helpers_module.send :undef_method, helper
+          end
+
+          rfc6570_helpers.clear
+
+          super
+        end
+
+        def add(name, route)
+          rfc6570_name      = :"#{name}_rfc6570"
+          rfc6570_url_name  = :"#{name}_url_rfc6570"
+          rfc6570_path_name = :"#{name}_path_rfc6570"
+
+          if key? name
+            @url_helpers_module.send :undef_method, rfc6570_name
+            @url_helpers_module.send :undef_method, rfc6570_url_name
+            @url_helpers_module.send :undef_method, rfc6570_path_name
+          end
+
+          @url_helpers_module.module_eval do
+            define_method(rfc6570_name) do |opts = {}|
+              template = route.to_rfc6570(opts)
+
+              if opts.fetch(:path_only, false)
+                template
+              else
+                root_uri = Addressable::URI.parse(root_url)
+
+                Addressable::Template.new root_uri.join(template.pattern).to_s
+              end
+            end
+
+            define_method(rfc6570_url_name) do |opts = {}|
+              send rfc6570_name, opts.merge(path_only: false)
+            end
+
+            define_method(rfc6570_path_name) do |opts = {}|
+              send rfc6570_name, opts.merge(path_only: true)
+            end
+          end
+
+          super
+        end
+
+        alias_method :[]=, :add
+        alias_method :clear, :clear!
+
+        private
+
+        def rfc6570_helpers
+          @rfc6570_helpers ||= Set.new
+        end
+      end
+
+      module JourneyRoute
+        def to_rfc6570(opts = {})
+          path.spec.to_rfc6570 opts.merge(route: self)
+        end
+      end
+
+      module JourneyNode
+        def to_rfc6570(opts = {})
+          ::Addressable::Template.new \
+            ::ActionDispatch::Journey::Visitors::RFC6570.new(opts).accept(self)
         end
       end
     end
@@ -161,32 +264,6 @@ module Rails
 
       def rfc6570_params_for(defs)
         rfc6570_defs[defs]
-      end
-    end
-
-    module UrlHelper
-      include Rails::RFC6570::Helper
-
-      def respond_to_missing?(mth, include_private = false)
-        if mth =~ /^(\w+)_rfc6570$/
-          Rails.application.routes.named_routes.names.include?($1)
-        else
-          super
-        end
-      end
-
-      def method_missing(mth, *args, &block)
-        opts = args.first || {}
-        case mth
-          when /^(\w+)_path_rfc6570$/
-            rfc6570_route $1, opts.merge(path_only: true)
-          when /^(\w+)_url_rfc6570$/
-            rfc6570_route $1, opts.merge(path_only: false) # independent of whatever future defaults
-          when /^(\w+)_rfc6570$/
-            rfc6570_route $1, opts
-          else
-            super
-        end
       end
     end
 
