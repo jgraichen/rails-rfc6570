@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Load root Gemfile
 self.instance_eval Bundler.read_file 'Gemfile'
 
-gem 'activesupport', '~> 4.2.0.beta4'
-gem 'activemodel', '~> 4.2.0.beta4'
-gem 'actionpack', '~> 4.2.0.beta4'
-gem 'railties', '~> 4.2.0.beta4', require: 'rails'
+gem 'activesupport', '~> 4.2.0'
+gem 'activemodel', '~> 4.2.0'
+gem 'actionpack', '~> 4.2.0'
+gem 'railties', '~> 4.2.0', require: 'rails'
