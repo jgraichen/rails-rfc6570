@@ -1,12 +1,14 @@
 language: ruby
 bundler_args: --without development
 rvm:
+- '2.3'
 - '2.2'
 - '2.1'
 - '2.0'
 - jruby
 - rbx-2
 gemfile:
+- gemfiles/Gemfile.rails-head
 - gemfiles/Gemfile.rails-4-2
 - gemfiles/Gemfile.rails-4-1
 - gemfiles/Gemfile.rails-4-0
@@ -14,3 +16,4 @@ matrix:
   allow_failures:
     - rvm: jruby
     - rvm: rbx-2
+    - gemfile: gemfiles/Gemfile.rails-head

@@ -1,0 +1,9 @@
+source 'https://rubygems.org'
+
+# Load root Gemfile
+self.instance_eval Bundler.read_file 'Gemfile'
+
+gem 'activesupport', github: 'rails/rails'
+gem 'activemodel', github: 'rails/rails'
+gem 'actionpack', github: 'rails/rails'
+gem 'railties', github: 'rails/rails', require: 'rails'
