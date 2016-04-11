@@ -18,4 +18,5 @@ matrix:
     - rvm: rbx-2
     - gemfile: gemfiles/Gemfile.rails-head
 before_install:
+  - rvm get latest
   - gem install bundler
