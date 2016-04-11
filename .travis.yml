@@ -17,3 +17,5 @@ matrix:
     - rvm: jruby
     - rvm: rbx-2
     - gemfile: gemfiles/Gemfile.rails-head
+before_install:
+  - gem install bundler
