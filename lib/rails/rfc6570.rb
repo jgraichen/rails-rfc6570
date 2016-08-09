@@ -3,7 +3,9 @@ require 'rails/rfc6570/version'
 module ActionDispatch
   module Journey
     module Visitors
-      class RFC6570 < String
+      class RFC6570 < Visitor
+        DISPATCH_CACHE = {}
+
         def initialize(opts = {})
           super()
 
@@ -21,7 +23,7 @@ module ActionDispatch
         end
 
         def accept(node)
-          str = super
+          str = visit(node)
 
           if @opts.fetch(:params, true) && route
             controller = route.defaults[:controller].to_s
@@ -38,7 +40,7 @@ module ActionDispatch
 
         def visit(node)
           @stack.unshift node.type
-          super node
+          send DISPATCH_CACHE.fetch(node.type), node
         ensure
           @stack.shift
         end
@@ -62,10 +64,6 @@ module ActionDispatch
           end
         end
 
-        def visit_SYMBOL(node)
-          placeholder node
-        end
-
         def binary(node)
           case [node.left.type, node.right.type]
             when [:DOT, :SYMBOL]
@@ -86,25 +84,73 @@ module ActionDispatch
               if node.right.left.type == :STAR
                 placeholder(node.right.left, '/', '*') + visit(node.right.right)
               else
-                super
+                [visit(node.left), visit(node.right)].join
               end
             when [:CAT, :STAR]
               visit(node.left).to_s.gsub(/\/+$/, '') + placeholder(node.right, '/', '*')
             else
-              super
+              [visit(node.left), visit(node.right)].join
           end
+        end
+
+        def terminal(node)
+          node.left
+        end
+
+        def nary(node)
+          node.children.each { |c| visit(c) }
+        end
+
+        def unary(node)
+          visit(node.left)
+        end
+
+        def visit_CAT(node)
+          binary(node)
+        end
+
+        def visit_SYMBOL(node)
+          terminal(node)
+        end
+
+        def visit_LITERAL(node)
+          terminal(node)
+        end
+
+        def visit_SLASH(node)
+          terminal(node)
+        end
+
+        def visit_DOT(node)
+          terminal(node)
+        end
+
+        def visit_SYMBOL(node)
+          placeholder(node)
+        end
+
+        def visit_OR(node)
+          nary(node)
+        end
+
+        def visit_STAR(node)
+          unary(node)
         end
 
         def visit_GROUP(node)
           if @group_depth >= 1
-            raise RuntimeError.new \
-              'Cannot transform nested groups.'
+            raise RuntimeError.new 'Cannot transform nested groups.'
           else
             @group_depth += 1
             visit node.left
           end
         ensure
           @group_depth -= 1
+        end
+
+        instance_methods(true).each do |meth|
+          next unless meth =~ /^visit_(.*)$/
+          DISPATCH_CACHE[$1.to_sym] = meth
         end
       end
     end
@@ -128,6 +174,9 @@ module Rails
           if MAJOR == 4 && (0..1).include?(MINOR)
             ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
               :prepend, Rails::RFC6570::Extensions::NamedRouteCollection40
+          elsif MAJOR == 4 && MINOR == 2
+            ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
+              :prepend, Rails::RFC6570::Extensions::NamedRouteCollection42
           else
             ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
               :prepend, Rails::RFC6570::Extensions::NamedRouteCollection42
