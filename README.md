@@ -8,7 +8,7 @@ Pragmatical access to your Rails 4.0 or 4.1 or 4.2 or 5.0 routes as RFC6570 URI 
 
 Add this line to your application's Gemfile:
 
-    gem 'rails-rfc6570', '~> 0.3'
+    gem 'rails-rfc6570', '~> 1.1'
 
 And then execute:
 
