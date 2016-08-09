@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgraichen/rails-rfc6570.svg?branch=master)](https://travis-ci.org/jgraichen/rails-rfc6570)
 
-Pragmatical access to your Rails 4.0 or 4.1 or 4.2 routes as RFC6570 URI templates. Since version 0.3.0 Ruby 2.0+ is required.
+Pragmatical access to your Rails 4.0 or 4.1 or 4.2 or 5.0 routes as RFC6570 URI templates. Since version 0.3.0 Ruby 2.0+ is required.
 
 ## Installation
 
