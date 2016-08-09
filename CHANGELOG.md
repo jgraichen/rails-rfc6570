@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+* Added support for Rails 5.0
+
 ## 1.0.0
 
 * No changes just bumping version to a production release
