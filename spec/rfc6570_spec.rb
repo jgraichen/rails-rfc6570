@@ -6,7 +6,7 @@ end
 
 
 Dummy::Application.routes.draw do
-  root to: 'api#index'
+  get '/' => 'api#index', as: :root
 
   get '/path/to/unnamed' => 'api#index', as: nil # Unnamed routes should be ignored
 

@@ -8,5 +8,6 @@ gem 'rake'
 
 gem 'rspec', '~> 3.0'
 gem 'coveralls'
+gem 'pry'
 
 gem 'rspec-rails'

@@ -222,15 +222,7 @@ module Rails
 
           mod.module_eval do
             define_method(rfc6570_name) do |opts = {}|
-              template = route.to_rfc6570(opts)
-
-              if opts.fetch(:path_only, false)
-                template
-              else
-                root_uri = Addressable::URI.parse(root_url)
-
-                Addressable::Template.new root_uri.join(template.pattern).to_s
-              end
+              ::Rails::RFC6570::build_url_template(self, route, opts)
             end
 
             define_method(rfc6570_url_name) do |opts = {}|
@@ -304,15 +296,7 @@ module Rails
           raise KeyError.new "No named routed for `#{name}'."
         end
 
-        template = route.to_rfc6570(opts)
-
-        if opts.fetch(:path_only, false)
-          template
-        else
-          root_uri = Addressable::URI.parse(root_url)
-
-          Addressable::Template.new root_uri.join(template.pattern).to_s
-        end
+        ::Rails::RFC6570::build_url_template(self, route, opts)
       end
     end
 
@@ -327,6 +311,21 @@ module Rails
 
       def rfc6570_params_for(defs)
         rfc6570_defs[defs]
+      end
+    end
+
+    def build_url_template(t, route, options)
+      template = route.to_rfc6570(options)
+
+      if options.fetch(:path_only, false)
+        template
+      else
+        options = t.url_options.merge(options)
+        options[:path] = template.pattern
+
+        url     = ActionDispatch::Http::URL.url_for options
+
+        ::Addressable::Template.new url
       end
     end
 
