@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+* Fix full URL generation to not use `root_url` helper to avoid depending on that and to improve compatibility with e.g. rails engines.
+
 ## 1.1.0
 
 * Added support for Rails 5.0
