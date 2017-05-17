@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0
+
+* Add support for Rails 5.1
+* Drop support for Rails < 4.2
+
 ## 1.1.1
 
 * Fix full URL generation to not use `root_url` helper to avoid depending on that and to improve compatibility with e.g. rails engines.
