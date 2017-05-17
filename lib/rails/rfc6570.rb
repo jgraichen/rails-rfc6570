@@ -171,19 +171,8 @@ module Rails
           ::ActionDispatch::Routing::RouteSet.send :include,
             Rails::RFC6570::Extensions::RouteSet
 
-          if MAJOR == 4 && (0..1).include?(MINOR)
-            ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
-              :prepend, Rails::RFC6570::Extensions::NamedRouteCollection40
-          elsif MAJOR == 4 && MINOR == 2
-            ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
-              :prepend, Rails::RFC6570::Extensions::NamedRouteCollection42
-          else
-            ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
-              :prepend, Rails::RFC6570::Extensions::NamedRouteCollection42
-          end
-
           ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
-            :include, Rails::RFC6570::Extensions::NamedRouteCollection
+            :prepend, Rails::RFC6570::Extensions::NamedRouteCollection
 
           ::ActionDispatch::Journey::Route.send :include,
             Rails::RFC6570::Extensions::JourneyRoute
@@ -238,29 +227,10 @@ module Rails
           set << rfc6570_url_name
           set << rfc6570_path_name
         end
-      end
-
-      module NamedRouteCollection40
-        def to_rfc6570(opts = {})
-          Hash[routes.map{|n, r| [n, r.to_rfc6570(opts)] }]
-        end
 
         def add(name, route)
-          define_rfc6570_helpers name, route, @module, @helpers
           super
-        end
-
-        alias_method :[]=, :add
-      end
-
-      module NamedRouteCollection42
-        def helper_names
-          super
-        end
-
-        def add(name, route)
           define_rfc6570_helpers name, route, @url_helpers_module, @url_helpers
-          super
         end
 
         alias_method :[]=, :add

@@ -1,23 +1,15 @@
 language: ruby
 bundler_args: --without development
 rvm:
-- '2.3.1'
-- '2.2.5'
-- '2.1.10'
+- '2.4.1'
+- '2.3.4'
+- '2.2.7'
 gemfile:
 - gemfiles/Gemfile.rails-head
+- gemfiles/Gemfile.rails-5-1
 - gemfiles/Gemfile.rails-5-0
 - gemfiles/Gemfile.rails-4-2
-- gemfiles/Gemfile.rails-4-1
-- gemfiles/Gemfile.rails-4-0
 matrix:
-  exclude:
-    - rvm: '2.2'
-      gemfile: gemfiles/Gemfile.rails-head
-    - rvm: '2.1.10'
-      gemfile: gemfiles/Gemfile.rails-5-0
-    - rvm: '2.1.10'
-      gemfile: gemfiles/Gemfile.rails-head
   allow_failures:
     - gemfile: gemfiles/Gemfile.rails-head
 before_install:
