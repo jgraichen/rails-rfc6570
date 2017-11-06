@@ -113,18 +113,18 @@ describe Rails::RFC6570, type: :request do
       expect(json['expand']).to eq "#{host}/path/a/b/TITLE"
     end
 
-    context 'with origin_script_name' do
-      let(:headers) { {'__OSN' => '/fuubar'} }
+    if Rails::VERSION::MAJOR >= 5
+      context 'with origin_script_name' do
+        let(:headers) { {'__OSN' => '/fuubar'} }
 
-      before do
-        if Rails::VERSION::MAJOR >= 5
+        before do
           # Consistency check with normal URL helper
           expect(json['ref']).to eq "#{host}/fuubar/action"
         end
-      end
 
-      it 'prefixes origin script name' do
-        expect(json['template']).to eq "#{host}/fuubar/action{?param1,param2}"
+        it 'prefixes origin script name' do
+          expect(json['template']).to eq "#{host}/fuubar/action{?param1,param2}"
+        end
       end
     end
   end
