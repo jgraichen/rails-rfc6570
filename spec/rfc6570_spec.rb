@@ -117,8 +117,10 @@ describe Rails::RFC6570, type: :request do
       let(:headers) { {'__OSN' => '/fuubar'} }
 
       before do
-        # Consistency check with normal URL helper
-        expect(json['ref']).to eq "#{host}/fuubar/action"
+        if Rails::VERSION::MAJOR >= 5
+          # Consistency check with normal URL helper
+          expect(json['ref']).to eq "#{host}/fuubar/action"
+        end
       end
 
       it 'prefixes origin script name' do
