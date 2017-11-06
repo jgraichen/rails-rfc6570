@@ -293,9 +293,15 @@ module Rails
         options = t.url_options.merge(options)
         options[:path] = template.pattern
 
-        url     = ActionDispatch::Http::URL.url_for options
+        original_script_name = options.delete(:original_script_name)
 
-        ::Addressable::Template.new url
+        if original_script_name
+          options[:script_name] = original_script_name + options[:script_name]
+        end
+
+        url = ActionDispatch::Http::URL.url_for(options)
+
+        ::Addressable::Template.new(url)
       end
     end
 

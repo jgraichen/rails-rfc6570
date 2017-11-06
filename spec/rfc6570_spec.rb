@@ -28,12 +28,21 @@ class APIController < ApplicationController
   rfc6570_params action: [:param1, :param2]
   def action
     render json: {
+      ref: action_url,
       template: action_rfc6570,
       template_url: action_url_rfc6570,
       template_path: action_path_rfc6570,
       partial: test6_rfc6570.partial_expand(title: 'TITLE'),
       expand: test6_rfc6570.expand(capture: %w(a b), title: 'TITLE')
     }
+  end
+
+  def default_url_options
+    if (root = request.headers['__OSN']).present?
+      super.merge original_script_name: root
+    else
+      super
+    end
   end
 end
 
@@ -78,7 +87,7 @@ describe Rails::RFC6570, type: :request do
   end
 
   context 'action' do
-    before { get '/action' }
+    before { get '/action', headers: headers }
 
     it 'should include URL helpers' do
       expect(response.status).to eq 200
@@ -102,6 +111,19 @@ describe Rails::RFC6570, type: :request do
 
     it 'should allow to return and render expanded templates' do
       expect(json['expand']).to eq "#{host}/path/a/b/TITLE"
+    end
+
+    context 'with origin_script_name' do
+      let(:headers) { {'__OSN' => '/fuubar'} }
+
+      before do
+        # Consistency check with normal URL helper
+        expect(json['ref']).to eq "#{host}/fuubar/action"
+      end
+
+      it 'prefixes origin script name' do
+        expect(json['template']).to eq "#{host}/fuubar/action{?param1,param2}"
+      end
     end
   end
 end
