@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+
+* Add emulation for Rails' routing behavior with original script name
+
 ## 2.0.0
 
 * Add support for Rails 5.1
