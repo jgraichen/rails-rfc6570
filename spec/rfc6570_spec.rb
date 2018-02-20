@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
 end
-
 
 Dummy::Application.routes.draw do
   get '/' => 'api#index', as: :root
@@ -25,7 +26,7 @@ class APIController < ApplicationController
     render json: rfc6570_routes
   end
 
-  rfc6570_params action: [:param1, :param2]
+  rfc6570_params action: %i[param1 param2]
   def action
     render json: {
       ref: action_url,
@@ -33,7 +34,7 @@ class APIController < ApplicationController
       template_url: action_url_rfc6570,
       template_path: action_path_rfc6570,
       partial: test6_rfc6570.partial_expand(title: 'TITLE'),
-      expand: test6_rfc6570.expand(capture: %w(a b), title: 'TITLE')
+      expand: test6_rfc6570.expand(capture: %w[a b], title: 'TITLE')
     }
   end
 
@@ -54,7 +55,7 @@ describe Rails::RFC6570, type: :request do
     before { get '/' }
 
     it 'should return list of all parsed and named routes' do
-      expect(json.keys).to match_array %w(root action test1 test2 test3 test4 test5 test6)
+      expect(json.keys).to match_array %w[root action test1 test2 test3 test4 test5 test6]
     end
 
     it 'should include known parameters' do
@@ -102,7 +103,7 @@ describe Rails::RFC6570, type: :request do
     end
 
     it 'should allow to return and render path templates' do
-      expect(json['template_path']).to eq "/action{?param1,param2}"
+      expect(json['template_path']).to eq '/action{?param1,param2}'
     end
 
     it 'should allow to return and render partial expanded templates' do

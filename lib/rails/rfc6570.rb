@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails/rfc6570/version'
 
 module ActionDispatch
   module Journey
     module Visitors
-      class RFC6570 < Visitor
-        DISPATCH_CACHE = {}
+      class RFC6570 < Visitor # rubocop:disable ClassLength
+        DISPATCH_CACHE = {} # rubocop:disable MutableConstant
 
         def initialize(opts = {})
           super()
@@ -15,13 +17,14 @@ module ActionDispatch
         end
 
         def ignore
-          @opts.fetch(:ignore) { %w(format) }
+          @opts.fetch(:ignore) { %w[format] }
         end
 
         def route
           @route ||= @opts[:route]
         end
 
+        # rubocop:disable AbcSize
         def accept(node)
           str = visit(node)
 
@@ -31,12 +34,13 @@ module ActionDispatch
 
             if controller.present? && action.present?
               params = Rails::RFC6570.params_for(controller, action)
-              str += '{?' + params.join(',') + '}' if params && params.any?
+              str += '{?' + params.join(',') + '}' if params&.any?
             end
           end
 
           str
         end
+        # rubocop:enable all
 
         def visit(node)
           @stack.unshift node.type
@@ -64,53 +68,57 @@ module ActionDispatch
           end
         end
 
+        # rubocop:disable AbcSize
+        # rubocop:disable CyclomaticComplexity
+        # rubocop:disable MethodLength
+        # rubocop:disable PerceivedComplexity
         def binary(node)
           case [node.left.type, node.right.type]
-            when [:DOT, :SYMBOL]
-              if @stack[0..1] == [:CAT, :GROUP]
+            when %i[DOT SYMBOL]
+              if @stack[0..1] == %i[CAT GROUP]
                 placeholder node.right, '.'
               else
                 placeholder(node.right, nil, nil, '.')
               end
-            when [:SLASH, :SYMBOL]
-              if @stack[0..1] == [:CAT, :GROUP]
+            when %i[SLASH SYMBOL]
+              if @stack[0..1] == %i[CAT GROUP]
                 placeholder(node.right, '/')
               else
                 placeholder(node.right, nil, nil, '/')
               end
-            when [:SLASH, :STAR]
+            when %i[SLASH STAR]
               placeholder node.right, '/', '*'
-            when [:SLASH, :CAT]
+            when %i[SLASH CAT]
               if node.right.left.type == :STAR
-                placeholder(node.right.left, '/', '*') + visit(node.right.right)
+                placeholder(node.right.left, '/', '*') +
+                  visit(node.right.right)
               else
                 [visit(node.left), visit(node.right)].join
               end
-            when [:CAT, :STAR]
-              visit(node.left).to_s.gsub(/\/+$/, '') + placeholder(node.right, '/', '*')
+            when %i[CAT STAR]
+              visit(node.left).to_s.gsub(%r{/+$}, '') +
+                placeholder(node.right, '/', '*')
             else
               [visit(node.left), visit(node.right)].join
           end
         end
+        # rubocop:enable all
 
         def terminal(node)
           node.left
         end
 
         def nary(node)
-          node.children.each { |c| visit(c) }
+          node.children.each {|c| visit(c) }
         end
 
         def unary(node)
           visit(node.left)
         end
 
+        # rubocop:disable MethodName
         def visit_CAT(node)
           binary(node)
-        end
-
-        def visit_SYMBOL(node)
-          terminal(node)
         end
 
         def visit_LITERAL(node)
@@ -138,19 +146,18 @@ module ActionDispatch
         end
 
         def visit_GROUP(node)
-          if @group_depth >= 1
-            raise RuntimeError.new 'Cannot transform nested groups.'
-          else
-            @group_depth += 1
-            visit node.left
-          end
+          raise 'Cannot transform nested groups.' if @group_depth >= 1
+
+          @group_depth += 1
+          visit node.left
         ensure
           @group_depth -= 1
         end
+        # rubocop:enable MethodName
 
         instance_methods(true).each do |meth|
           next unless meth =~ /^visit_(.*)$/
-          DISPATCH_CACHE[$1.to_sym] = meth
+          DISPATCH_CACHE[Regexp.last_match(1).to_sym] = meth
         end
       end
     end
@@ -161,7 +168,7 @@ module Rails
   module RFC6570
     if defined?(::Rails::Railtie)
       class Railtie < ::Rails::Railtie # :nodoc:
-        initializer 'rails-rfc6570', :group => :all do |app|
+        initializer 'rails-rfc6570', group: :all do |_app|
           require 'rails/rfc6570/patches'
           require 'action_dispatch/journey'
 
@@ -191,15 +198,17 @@ module Rails
     module Extensions
       module RouteSet
         def to_rfc6570(opts = {})
-          routes.map{|r| r.to_rfc6570(opts) }
+          routes.map {|r| r.to_rfc6570(opts) }
         end
       end
 
       module NamedRouteCollection
         def to_rfc6570(opts = {})
-          Hash[routes.map{|n, r| [n, r.to_rfc6570(opts)] }]
+          Hash[routes.map {|n, r| [n, r.to_rfc6570(opts)] }]
         end
 
+        # rubocop:disable AbcSize
+        # rubocop:disable MethodLength
         def define_rfc6570_helpers(name, route, mod, set)
           rfc6570_name      = :"#{name}_rfc6570"
           rfc6570_url_name  = :"#{name}_url_rfc6570"
@@ -211,7 +220,7 @@ module Rails
 
           mod.module_eval do
             define_method(rfc6570_name) do |opts = {}|
-              ::Rails::RFC6570::build_url_template(self, route, opts)
+              ::Rails::RFC6570.build_url_template(self, route, opts)
             end
 
             define_method(rfc6570_url_name) do |opts = {}|
@@ -227,13 +236,14 @@ module Rails
           set << rfc6570_url_name
           set << rfc6570_path_name
         end
+        # rubocop:enable all
 
         def add(name, route)
           super
           define_rfc6570_helpers name, route, @url_helpers_module, @url_helpers
         end
 
-        alias_method :[]=, :add
+        alias []= add
       end
 
       module JourneyRoute
@@ -261,12 +271,10 @@ module Rails
       end
 
       def rfc6570_route(name, opts = {})
-        route    = Rails.application.routes.named_routes[name]
-        unless route
-          raise KeyError.new "No named routed for `#{name}'."
-        end
+        route = Rails.application.routes.named_routes[name]
+        raise KeyError.new "No named routed for `#{name}'." unless route
 
-        ::Rails::RFC6570::build_url_template(self, route, opts)
+        ::Rails::RFC6570.build_url_template(self, route, opts)
       end
     end
 
@@ -284,6 +292,7 @@ module Rails
       end
     end
 
+    # rubocop:disable MethodLength
     def build_url_template(t, route, options)
       template = route.to_rfc6570(options)
 
@@ -304,6 +313,7 @@ module Rails
         ::Addressable::Template.new(url)
       end
     end
+    # rubocop:enable all
 
     def params_for(controller, action)
       ctr = "#{controller.camelize}Controller".constantize
@@ -311,6 +321,7 @@ module Rails
     rescue NameError
       nil
     end
-    extend self
+
+    extend self # rubocop:disable ModuleFunction
   end
 end

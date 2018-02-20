@@ -1,4 +1,5 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rails/rfc6570/version'
@@ -8,20 +9,20 @@ Gem::Specification.new do |spec|
   spec.version       = Rails::RFC6570::VERSION
   spec.authors       = ['Jan Graichen']
   spec.email         = ['jg@altimos.de']
-  spec.summary       = %q(Pragmatical access to your Rails routes as RFC6570 URI templates.)
-  spec.description   = %q(Pragmatical access to your Rails routes as RFC6570 URI templates.)
+  spec.summary       = 'Pragmatical access to your Rails routes as ' \
+                       'RFC6570 URI templates.'
   spec.homepage      = 'https://github.com/jgraichen/rails-rfc6570'
   spec.license       = 'MIT'
 
-  spec.files         = Dir['**/*'].grep(/^(
-      (bin|lib|test|spec|features)\/|
+  spec.files         = Dir['**/*'].grep(%r{^(
+      (bin|lib|test|spec|features)/|
       (.*\.gemspec|.*LICENSE.*|.*README.*|.*CHANGELOG.*)
-    )/x)
-  spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
+    )}x)
+  spec.executables   = spec.files.grep(%r{^bin/}) {|f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'actionpack', '>= 4.2', '< 5.2'
+  spec.add_runtime_dependency 'actionpack', '>= 4.2', '< 6'
   spec.add_runtime_dependency 'addressable', '~> 2.3'
 
   spec.add_development_dependency 'bundler', '~> 1.5'

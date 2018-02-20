@@ -1,13 +1,12 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in rails-routes.gemspec
-gemroot = File.dirname File.absolute_path __FILE__
-gemspec path: gemroot
+gemspec
 
-gem 'rake'
-
-gem 'rspec', '~> 3.0'
+gem 'appraisal'
 gem 'coveralls'
 gem 'pry'
-
+gem 'rake'
+gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
