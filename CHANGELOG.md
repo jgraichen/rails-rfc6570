@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0
+
+* Add support to Rails 5.2 to gemspec
+
 ## 2.1.0
 
 * Add emulation for Rails' routing behavior with original script name
