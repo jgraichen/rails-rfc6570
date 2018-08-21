@@ -7,6 +7,7 @@ gemspec
 gem 'appraisal'
 gem 'coveralls'
 gem 'pry'
+gem 'pry-byebug'
 gem 'rake'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
