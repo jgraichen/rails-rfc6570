@@ -34,6 +34,7 @@ class APIController < ApplicationController
       template_url: action_url_rfc6570,
       template_path: action_path_rfc6570,
       partial: test6_rfc6570.partial_expand(title: 'TITLE'),
+      ignore: test6_rfc6570(ignore: %w[title]),
       expand: test6_rfc6570.expand(capture: %w[a b], title: 'TITLE')
     }
   end
@@ -108,6 +109,10 @@ describe Rails::RFC6570, type: :request do
 
     it 'should allow to return and render partial expanded templates' do
       expect(json['partial']).to eq "#{host}/path{/capture*}/TITLE"
+    end
+
+    it 'should allow to return and render expanded templates' do
+      expect(json['ignore']).to eq "#{host}/path{/capture*}{.format}"
     end
 
     it 'should allow to return and render expanded templates' do
