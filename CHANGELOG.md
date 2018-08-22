@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0
+
+* Newly written visitor and formatter to improve performance (#3)
+* Nested groups are expanded into a list of groups
+
 ## 2.2.0
 
 * Add support to Rails 5.2 to gemspec
