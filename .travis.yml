@@ -1,7 +1,7 @@
 sudo: false
 dist: trusty
 language: ruby
-bundler_args: --without development
+bundler_args: "--without development"
 rvm:
 - 2.5.1
 - 2.4.4
@@ -19,4 +19,20 @@ matrix:
   - rvm: 2.3.7
     gemfile: gemfiles/rails_head.gemfile
 before_install:
-  - gem install bundler
+- gem install bundler
+
+jobs:
+  include:
+  - stage: Deploy
+    rvm: 2.5.1
+    gemfile: []
+    script: skip
+    install: skip
+    deploy:
+      provider: rubygems
+      api_key:
+        secure: bE7ywwsaChYmqZlqytQXks3WeMtJJSQr5zhX7xXOjDnbp4M90uUxPAJRle5rHOA3nnVUNUpyzQa5V9T1cvqpAnpzq9vUKfl1zCmr9CxoGrbH85CHmf+kYADZs0HelrBqZzWcyWR8IsN5gpSrjkUgm5iqDXMTqfDGqGKl7KFitn4=
+      gem: rails-rfc6570
+      on:
+        tags: true
+        repo: jgraichen/rails-rfc6570
