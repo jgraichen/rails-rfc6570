@@ -12,3 +12,5 @@ gem 'rake'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
 gem 'rubocop', '~> 0.58.2'
+
+gem 'benchmark-ips'
