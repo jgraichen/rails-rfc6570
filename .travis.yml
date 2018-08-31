@@ -25,7 +25,6 @@ jobs:
   include:
   - stage: Deploy
     rvm: 2.5.1
-    gemfile: []
     script: skip
     install: skip
     deploy:
