@@ -1,11 +1,11 @@
-sudo: false
-dist: trusty
+dist: xenial
 language: ruby
 bundler_args: "--without development"
 rvm:
-- 2.5.1
-- 2.4.4
-- 2.3.7
+- 2.6.0
+- 2.5.3
+- 2.4.5
+- 2.3.8
 gemfile:
 - gemfiles/rails_5.2.gemfile
 - gemfiles/rails_5.1.gemfile
@@ -16,15 +16,14 @@ matrix:
   allow_failures:
   - gemfile: gemfiles/rails_head.gemfile
   exclude:
-  - rvm: 2.3.7
+  - rvm: 2.3.8
     gemfile: gemfiles/rails_head.gemfile
-before_install:
-- gem install bundler
-
+  - rvm: 2.4.5
+    gemfile: gemfiles/rails_head.gemfile
 jobs:
   include:
   - stage: Deploy
-    rvm: 2.5.1
+    rvm: 2.6.0
     script: skip
     install: skip
     deploy:
