@@ -2,7 +2,7 @@ dist: xenial
 language: ruby
 bundler_args: "--without development"
 rvm:
-- 2.6.0
+- 2.6.1
 - 2.5.3
 - 2.4.5
 - 2.3.8
@@ -23,7 +23,7 @@ matrix:
 jobs:
   include:
   - stage: Deploy
-    rvm: 2.6.0
+    rvm: 2.6.1
     script: skip
     install: skip
     deploy:
