@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'rails-rfc6570'
   spec.version       = Rails::RFC6570::VERSION
   spec.authors       = ['Jan Graichen']
-  spec.email         = ['jg@altimos.de']
+  spec.email         = ['jgraichen@altimos.de']
   spec.summary       = 'Pragmatical access to your Rails routes as ' \
                        'RFC6570 URI templates.'
   spec.homepage      = 'https://github.com/jgraichen/rails-rfc6570'
