@@ -11,6 +11,6 @@ gem 'pry-byebug'
 gem 'rake'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
-gem 'rubocop', '~> 0.70.0'
+gem 'rubocop', '~> 0.71.0'
 
 gem 'benchmark-ips'
