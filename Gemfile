@@ -4,13 +4,15 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'appraisal'
 gem 'coveralls'
-gem 'pry'
-gem 'pry-byebug'
 gem 'rake'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
 gem 'rubocop', '~> 0.71.0'
 
-gem 'benchmark-ips'
+group :development do
+  gem 'appraisal'
+  gem 'benchmark-ips'
+  gem 'pry'
+  gem 'pry-byebug'
+end

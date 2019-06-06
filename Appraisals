@@ -28,6 +28,13 @@ appraise 'rails-5.2' do
   gem 'railties', '~> 5.2.0', require: 'rails'
 end
 
+appraise 'rails-6.0' do
+  gem 'activesupport', '~> 6.0.0.rc'
+  gem 'activemodel', '~> 6.0.0.rc'
+  gem 'actionpack', '~> 6.0.0.rc'
+  gem 'railties', '~> 6.0.0.rc', require: 'rails'
+end
+
 appraise 'rails-head' do
   gem 'activesupport', github: 'rails/rails'
   gem 'activemodel', github: 'rails/rails'

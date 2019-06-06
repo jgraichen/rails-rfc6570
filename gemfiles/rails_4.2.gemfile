@@ -2,15 +2,21 @@
 
 source "https://rubygems.org"
 
-gem "appraisal"
 gem "coveralls"
-gem "pry"
 gem "rake"
 gem "rspec", "~> 3.0"
 gem "rspec-rails"
+gem "rubocop", "~> 0.71.0"
 gem "activesupport", "~> 4.2.0"
 gem "activemodel", "~> 4.2.0"
 gem "actionpack", "~> 4.2.0"
 gem "railties", "~> 4.2.0", require: "rails"
+
+group :development do
+  gem "appraisal"
+  gem "benchmark-ips"
+  gem "pry"
+  gem "pry-byebug"
+end
 
 gemspec path: "../"
