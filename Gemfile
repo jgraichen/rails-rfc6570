@@ -8,7 +8,7 @@ gem 'coveralls'
 gem 'rake'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
-gem 'rubocop', '~> 0.72.0'
+gem 'rubocop', '~> 0.73.0'
 
 group :development do
   gem 'appraisal'
