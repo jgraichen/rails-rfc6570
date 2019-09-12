@@ -10,6 +10,8 @@ gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
 gem 'rubocop', '~> 0.74.0'
 
+gem 'rake-release', '~> 1.0'
+
 group :development do
   gem 'appraisal'
   gem 'benchmark-ips'
