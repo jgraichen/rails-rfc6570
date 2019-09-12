@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgraichen/rails-rfc6570.svg?branch=master)](https://travis-ci.org/jgraichen/rails-rfc6570)
 
-Pragmatic access to your Rails 4.2, 5.0, 5.1, 5.2 routes as RFC6570 URI templates. Ruby 2.3+ is required.
+Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 4.2, 5.0, 5.1, 5.2, 6.0 and Ruby 2.4, 2.5 and 2.6.
 
 ## Installation
 
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::API
 end
 ```
 
-**Pro Tip**: Append `_url` to the route names: `rfc6570_routes.map{|n,r| ["#{n}_url", r]}.to_h`.
+**Pro Tip**: Append `_url` to the route names: `rfc6570_routes.transform_keys {|k| "#{k}_url" }`.
 
 By default the `format` placeholder is ignored and the HTTP host will be included in the URI template.
 
