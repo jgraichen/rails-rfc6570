@@ -103,6 +103,7 @@ module Rails
 
       instance_methods(true).each do |meth|
         next unless meth =~ /^visit_(.*)$/
+
         DISPATCH_CACHE[Regexp.last_match(1).to_sym] = meth
       end
 
