@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.0
+
+* Add support for Rails 6.0
+
 ## 2.3.0
 
 * Newly written visitor and formatter to improve performance (#3)
