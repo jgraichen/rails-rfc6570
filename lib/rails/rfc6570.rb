@@ -16,13 +16,13 @@ module Rails
           MAJOR = Rails::VERSION::MAJOR
           MINOR = Rails::VERSION::MINOR
 
-          ::ActionDispatch::Routing::RouteSet.send :include,
+          ::ActionDispatch::Routing::RouteSet.include \
             Rails::RFC6570::Extensions::RouteSet
 
-          ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.send \
-            :prepend, Rails::RFC6570::Extensions::NamedRouteCollection
+          ::ActionDispatch::Routing::RouteSet::NamedRouteCollection.prepend \
+            Rails::RFC6570::Extensions::NamedRouteCollection
 
-          ::ActionDispatch::Journey::Route.send :include,
+          ::ActionDispatch::Journey::Route.include \
             Rails::RFC6570::Extensions::JourneyRoute
 
           ::ActiveSupport.on_load(:action_controller) do
@@ -45,7 +45,6 @@ module Rails
           Hash[routes.map {|n, r| [n, r.to_rfc6570(opts)] }]
         end
 
-        # rubocop:disable MethodLength
         def define_rfc6570_helpers(name, route, mod, set)
           rfc6570_name      = :"#{name}_rfc6570"
           rfc6570_url_name  = :"#{name}_url_rfc6570"
@@ -75,7 +74,6 @@ module Rails
           set << rfc6570_url_name
           set << rfc6570_path_name
         end
-        # rubocop:enable all
 
         def add(name, route)
           super
@@ -113,7 +111,7 @@ module Rails
 
     module ControllerExtension
       def rfc6570_defs
-        @__rfc6570_defs ||= {}
+        @rfc6570_defs ||= {}
       end
 
       def rfc6570_params(defs)
@@ -136,6 +134,6 @@ module Rails
       route.to_rfc6570(ctx: ctx, **kwargs)
     end
 
-    extend self # rubocop:disable ModuleFunction
+    extend self # rubocop:disable Style/ModuleFunction
   end
 end

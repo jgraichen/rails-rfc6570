@@ -3,7 +3,7 @@
 module Rails
   module RFC6570
     class Visitor < ::ActionDispatch::Journey::Visitors::Visitor
-      DISPATCH_CACHE = {} # rubocop:disable MutableConstant
+      DISPATCH_CACHE = {} # rubocop:disable Style/MutableConstant
 
       def initialize(factory: nil)
         super()
@@ -27,7 +27,7 @@ module Rails
         node.left
       end
 
-      # rubocop:disable MethodName
+      # rubocop:disable Naming/MethodName
       def visit_CAT(node)
         if (mth = DISPATCH_CACHE[:"#{node.left.type}_#{node.right.type}"])
           send mth, node.left, node.right
@@ -80,7 +80,6 @@ module Rails
         end
       end
 
-      # rubocop:disable AbcSize
       def visit_SLASH_CAT(slash, cat)
         if cat.left.type == :STAR
           [symbol(cat.left.left, prefix: '/', suffix: '*'), visit(cat.right)]
@@ -90,7 +89,6 @@ module Rails
           [visit(slash), visit(cat)]
         end
       end
-      # rubocop:enable AbcSize
 
       def visit_SLASH_STAR(_slash, star)
         symbol(star.left, prefix: '/', suffix: '*')
@@ -99,7 +97,7 @@ module Rails
       def visit_STAR_CAT(star, cat)
         [symbol(star.left, prefix: '/', suffix: '*'), visit(cat)]
       end
-      # rubocop:enable MethodName
+      # rubocop:enable Naming/MethodName
 
       instance_methods(true).each do |meth|
         next unless meth =~ /^visit_(.*)$/

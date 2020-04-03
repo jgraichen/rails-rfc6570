@@ -9,7 +9,8 @@ end
 Dummy::Application.routes.draw do
   get '/' => 'api#index', as: :root
 
-  get '/path/to/unnamed' => 'api#index', as: nil # Unnamed routes should be ignored
+  # Unnamed routes should be ignored
+  get '/path/to/unnamed' => 'api#index', as: nil
 
   get '/action' => 'api#action', as: :action
 
@@ -55,35 +56,36 @@ describe Rails::RFC6570, type: :request do
   context 'root' do
     before { get '/' }
 
-    it 'should return list of all parsed and named routes' do
-      expect(json.keys).to match_array %w[root action test1 test2 test3 test4 test5 test6]
+    it 'returns list of all parsed and named routes' do
+      expect(json.keys).to match_array \
+        %w[root action test1 test2 test3 test4 test5 test6]
     end
 
-    it 'should include known parameters' do
+    it 'includes known parameters' do
       expect(json['action']).to eq "#{host}/action{?param1,param2}"
     end
 
-    it 'should parse capture symbols' do
+    it 'parses capture symbols' do
       expect(json['test1']).to eq "#{host}/path/{title}"
     end
 
-    it 'should parse capture group' do
+    it 'parses capture group' do
       expect(json['test2']).to eq "#{host}/path/pp-{title}-abc"
     end
 
-    it 'should parse capture group with slash included' do
+    it 'parses capture group with slash included' do
       expect(json['test3']).to eq "#{host}/path{/title}"
     end
 
-    it 'should parse splash operator (I)' do
+    it 'parses splash operator (I)' do
       expect(json['test4']).to eq "#{host}/path{/capture*}/{title}"
     end
 
-    it 'should parse splash operator (II)' do
+    it 'parses splash operator (II)' do
       expect(json['test5']).to eq "#{host}/path{/capture*}/{title}"
     end
 
-    it 'should parse splash operator (III)' do
+    it 'parses splash operator (III)' do
       expect(json['test6']).to eq "#{host}/path{/capture*}{/title}"
     end
   end
@@ -91,46 +93,44 @@ describe Rails::RFC6570, type: :request do
   context 'action' do
     before { get '/action', headers: headers }
 
-    it 'should include URL helpers' do
+    it 'includes URL helpers' do
       expect(response.status).to eq 200
     end
 
-    it 'should allow to return and render templates' do
+    it 'allows to return and render templates' do
       expect(json['template']).to eq "#{host}/action{?param1,param2}"
     end
 
-    it 'should allow to return and render url templates' do
+    it 'allows to return and render url templates' do
       expect(json['template_url']).to eq "#{host}/action{?param1,param2}"
     end
 
-    it 'should allow to return and render path templates' do
+    it 'allows to return and render path templates' do
       expect(json['template_path']).to eq '/action{?param1,param2}'
     end
 
-    it 'should allow to return and render partial expanded templates' do
+    it 'allows to return and render partial expanded templates' do
       expect(json['partial']).to eq "#{host}/path{/capture*}/TITLE"
     end
 
-    it 'should allow to return and render expanded templates' do
+    it 'allows to return and render expanded templates (I)' do
       expect(json['ignore']).to eq "#{host}/path{/capture*}{.format}"
     end
 
-    it 'should allow to return and render expanded templates' do
+    it 'allows to return and render expanded templates (II)' do
       expect(json['expand']).to eq "#{host}/path/a/b/TITLE"
     end
 
-    if Rails::VERSION::MAJOR >= 5
-      context 'with origin_script_name' do
-        let(:headers) { {'__OSN' => '/fuubar'} }
+    context 'with origin_script_name' do
+      let(:headers) { {'__OSN' => '/fuubar'} }
 
-        before do
-          # Consistency check with normal URL helper
-          expect(json['ref']).to eq "#{host}/fuubar/action"
-        end
+      before do
+        # Consistency check with normal URL helper
+        expect(json['ref']).to eq "#{host}/fuubar/action"
+      end
 
-        it 'prefixes origin script name' do
-          expect(json['template']).to eq "#{host}/fuubar/action{?param1,param2}"
-        end
+      it 'prefixes origin script name' do
+        expect(json['template']).to eq "#{host}/fuubar/action{?param1,param2}"
       end
     end
   end

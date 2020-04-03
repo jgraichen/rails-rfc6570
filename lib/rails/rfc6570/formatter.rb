@@ -44,7 +44,9 @@ module Rails
         Subst.new(node.name, "{#{prefix}#{node.name}#{suffix}}")
       end
 
-      Subst = Struct.new(:name, :to_s)
+      Subst = Struct.new(:name, :string) do
+        alias_method :to_s, :string
+      end
     end
   end
 end
