@@ -1,6 +1,6 @@
 # Rails::RFC6570
 
-[![Build Status](https://travis-ci.org/jgraichen/rails-rfc6570.svg?branch=master)](https://travis-ci.org/jgraichen/rails-rfc6570)
+[![Build Status](https://github.com/jgraichen/rails-rfc6570/workflows/Build/badge.svg?event=push)](https://github.com/jgraichen/rails-rfc6570/actions?query=workflow%3ABuild)
 
 Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 5.0, 5.1, 5.2, 6.0 and Ruby 2.5, 2.6, 2.7.
 
