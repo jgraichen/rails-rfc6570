@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgraichen/rails-rfc6570.svg?branch=master)](https://travis-ci.org/jgraichen/rails-rfc6570)
 
-Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 4.2, 5.0, 5.1, 5.2, 6.0 and Ruby 2.4, 2.5 and 2.6.
+Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 5.0, 5.1, 5.2, 6.0 and Ruby 2.5, 2.6, 2.7.
 
 ## Installation
 
