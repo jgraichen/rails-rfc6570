@@ -17,6 +17,6 @@ jobs:
       rvm: 2.7.1
       gemfile: []
       script:
-        - bundle exec rubocop
+        - bundle exec rubocop --parallel --color 
   allow_failures:
     - gemfile: gemfiles/rails_head.gemfile
