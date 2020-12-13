@@ -16,6 +16,7 @@ jobs:
           - rails_5.1.gemfile
           - rails_5.2.gemfile
           - rails_6.0.gemfile
+          - rails_6.1.gemfile
       fail-fast: false
 
     steps:
@@ -32,14 +33,9 @@ jobs:
         run: |
           sudo apt-get install --quiet --yes libsqlite3-dev
 
-      - name: Install bundler 1.0
-        if: matrix.gemfile == 'rails_42.gemfile'
-        run: |
-          gem uninstall --all --executables --force bundler
-          gem install bundler --version '~> 1.0'
-
       - name: Run bundle install
         run: |
+          gem install bundler --version '~> 2.0'
           bundle config gemfile "gemfiles/${{ matrix.gemfile }}"
           bundle config path "$(pwd)/vendor/bundle"
           bundle config without development

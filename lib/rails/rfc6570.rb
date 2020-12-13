@@ -55,18 +55,26 @@ module Rails
           end
 
           mod.module_eval do
-            define_method(rfc6570_name) do |opts = {}|
-              ::Rails::RFC6570.build_url_template(self, route, opts)
+            define_method(rfc6570_name) do |**opts|
+              ::Rails::RFC6570.build_url_template(self, route, **opts)
             end
 
-            define_method(rfc6570_url_name) do |opts = {}|
-              ::Rails::RFC6570.build_url_template(self, route,
-                opts.merge(path_only: false))
+            define_method(rfc6570_url_name) do |**opts|
+              ::Rails::RFC6570.build_url_template(
+                self,
+                route,
+                **opts,
+                path_only: false
+              )
             end
 
-            define_method(rfc6570_path_name) do |opts = {}|
-              ::Rails::RFC6570.build_url_template(self, route,
-                opts.merge(path_only: true))
+            define_method(rfc6570_path_name) do |**opts|
+              ::Rails::RFC6570.build_url_template(
+                self,
+                route,
+                **opts,
+                path_only: true
+              )
             end
           end
 
@@ -84,24 +92,24 @@ module Rails
       end
 
       module JourneyRoute
-        def to_rfc6570(opts = {})
+        def to_rfc6570(**opts)
           @rfc6570_formatter ||= RFC6570::Formatter.new(self)
-          @rfc6570_formatter.evaluate(opts)
+          @rfc6570_formatter.evaluate(**opts)
         end
       end
     end
 
     module Helper
-      def rfc6570_routes(opts = {})
+      def rfc6570_routes(**opts)
         routes = {}
         Rails.application.routes.named_routes.names.each do |key|
-          routes[key] = rfc6570_route(key, opts)
+          routes[key] = rfc6570_route(key, **opts)
         end
 
         routes
       end
 
-      def rfc6570_route(name, opts = {})
+      def rfc6570_route(name, **opts)
         route = Rails.application.routes.named_routes[name]
         raise KeyError.new "No named routed for `#{name}'." unless route
 
