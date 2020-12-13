@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 # Coverage
-require 'coveralls'
-Coveralls.wear! do
-  add_filter 'spec'
+require 'simplecov'
+SimpleCov.start
+
+if ENV['CI']
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 ENV['RAILS_ENV'] ||= 'test'

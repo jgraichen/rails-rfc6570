@@ -4,13 +4,12 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'coveralls'
-gem 'rake'
+gem 'codecov', require: false
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
 
 gem 'my-rubocop', github: 'jgraichen/my-rubocop'
-
+gem 'rake'
 gem 'rake-release', '~> 1.0'
 
 group :development do
