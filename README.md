@@ -1,8 +1,8 @@
 # Rails::RFC6570
 
-[![Build Status](https://github.com/jgraichen/rails-rfc6570/workflows/Build/badge.svg?event=push)](https://github.com/jgraichen/rails-rfc6570/actions?query=workflow%3ABuild)
+[![Build Status](https://github.com/jgraichen/rails-rfc6570/workflows/test/badge.svg?event=push)](https://github.com/jgraichen/rails-rfc6570/actions?query=workflow%3Atest)
 
-Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 5.0, 5.1, 5.2, 6.0 and Ruby 2.5, 2.6, 2.7.
+Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 5.0, 5.1, 5.2, 6.0, 6.1 and Ruby 2.5, 2.6, 2.7.
 
 ## Installation
 
@@ -22,7 +22,7 @@ Or install it yourself as:
 
 **Rails::RFC6570** gives you direct access to your Rails routes as RFC6570 URI templates using the [addressable](https://github.com/sporkmonger/addressable) gem. It further patches `Addressable::Template` with a `#as_json` and `#to_s` so that you can simply pass the template objects or even partial expanded templates to your render call, decorator or serializer.
 
-This examples print a JSON index resource just like https://api.github.com:
+The following examples print a JSON index resource just like https://api.github.com:
 
 ```ruby
 class ApplicationController < ActionController::API
@@ -34,9 +34,9 @@ end
 
 **Pro Tip**: Append `_url` to the route names: `rfc6570_routes.transform_keys {|k| "#{k}_url" }`.
 
-By default the `format` placeholder is ignored and the HTTP host will be included in the URI template.
+By default, the `format` placeholder is ignored and the HTTP host will be included in the URI template.
 
-Additionally you can specify a list of query parameters in your controllers:
+Additionally, you can specify a list of query parameters in your controllers:
 
 ```ruby
 class UserController < ApplicationController

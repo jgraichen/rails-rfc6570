@@ -1,7 +1,7 @@
-name: Build
+name: test
 on: [push]
 jobs:
-  test:
+  rspec:
     name: Ruby ${{ matrix.ruby }} / ${{ matrix.gemfile }}
     runs-on: ubuntu-18.04
 
@@ -43,3 +43,29 @@ jobs:
 
       - name: Run rspec
         run: bundle exec rspec --color
+
+  rubocop:
+    name: rubocop
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - uses: actions/cache@v1
+        with:
+          path: vendor
+          key: v1-ruby-2.7
+
+      - name: Install bundler
+        run: |
+          gem install bundler -v '~> 2.0'
+          bundle config path "$(pwd)/vendor/bundle"
+          bundle config without development
+
+      - name: Run bundle install
+        run: bundle install --jobs=4 --retry=3
+
+      - name: Run rubocop
+        run: bundle exec rubocop --parallel --color
