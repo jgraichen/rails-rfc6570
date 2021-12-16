@@ -4,17 +4,24 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Changelog](http://keepachangelog.com/).
 
 
+
 ## Unreleased
 ---
 
 ### New
-* Support for Rails 7
 
 ### Changes
 
 ### Fixes
 
 ### Breaks
+
+
+## 2.6.0 - (2021-12-16)
+---
+
+### New
+* Support for Rails 7
 
 
 ## 2.5.0 - (2020-12-13)
