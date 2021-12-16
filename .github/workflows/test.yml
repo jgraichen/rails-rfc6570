@@ -18,6 +18,18 @@ jobs:
           - rails_5.2.gemfile
           - rails_6.0.gemfile
           - rails_6.1.gemfile
+          - rails_7.0.gemfile
+        exclude:
+          - ruby: "3.0"
+            gemfile: rails_5.0.gemfile
+          - ruby: "3.0"
+            gemfile: rails_5.1.gemfile
+          - ruby: "3.0"
+            gemfile: rails_5.2.gemfile
+          - ruby: "2.5"
+            gemfile: rails_7.0.gemfile
+          - ruby: "2.6"
+            gemfile: rails_7.0.gemfile
       fail-fast: False
 
     env:
