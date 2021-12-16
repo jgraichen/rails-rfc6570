@@ -13,9 +13,6 @@ module Rails
         initializer 'rails-rfc6570', group: :all do |_app|
           require 'rails/rfc6570/patches'
 
-          MAJOR = Rails::VERSION::MAJOR
-          MINOR = Rails::VERSION::MINOR
-
           ::ActionDispatch::Routing::RouteSet.include \
             Rails::RFC6570::Extensions::RouteSet
 
@@ -42,7 +39,7 @@ module Rails
 
       module NamedRouteCollection
         def to_rfc6570(opts = {})
-          Hash[routes.map {|n, r| [n, r.to_rfc6570(opts)] }]
+          routes.map {|n, r| [n, r.to_rfc6570(opts)] }.to_h
         end
 
         def define_rfc6570_helpers(name, route, mod, set)
@@ -64,7 +61,7 @@ module Rails
                 self,
                 route,
                 **opts,
-                path_only: false
+                path_only: false,
               )
             end
 
@@ -73,7 +70,7 @@ module Rails
                 self,
                 route,
                 **opts,
-                path_only: true
+                path_only: true,
               )
             end
           end

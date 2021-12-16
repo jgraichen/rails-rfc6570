@@ -10,7 +10,7 @@ module Rails
         @parts = Visitor.new(factory: method(:symbol)).accept(route.path.spec)
       end
 
-      def evaluate(ignore: %w[format], ctx:, **kwargs)
+      def evaluate(ctx:, ignore: %w[format], **kwargs)
         parts = @parts.reject do |part|
           part.is_a?(Subst) && ignore.include?(part.name)
         end
@@ -21,7 +21,7 @@ module Rails
 
           if controller.present? && action.present?
             params = ::Rails::RFC6570.params_for(controller, action)
-            parts << '{?' + params.join(',') + '}' if params&.any?
+            parts << ("{?#{params.join(',')}}") if params&.any?
           end
         end
 
