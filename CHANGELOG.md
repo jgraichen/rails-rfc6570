@@ -9,14 +9,24 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
+### Changes
+
+### Fixes
+
+### Breaks
+
+## 3.0.0 - (2023-09-04)
+
+---
+
+### New
+
 - Add Ruby 3.1 and 3.2 to test matrix
 
 ### Changes
 
 - Drop Ruby < 2.7 from test matrix
 - Drop Rails < 6.1 from test matrix
-
-### Fixes
 
 ### Breaks
 

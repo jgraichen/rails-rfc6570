@@ -9,7 +9,7 @@ Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rail
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails-rfc6570', '~> 2.0'
+gem 'rails-rfc6570', '~> 3.0'
 ```
 
 ## Usage
