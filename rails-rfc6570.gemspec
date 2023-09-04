@@ -23,13 +23,10 @@ Gem::Specification.new do |spec|
       (.*\.gemspec|.*LICENSE.*|.*README.*|.*CHANGELOG.*)
     )}x)
   spec.executables   = spec.files.grep(%r{^bin/}) {|f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.add_runtime_dependency 'actionpack', '>= 4.2', '< 7.1'
   spec.add_runtime_dependency 'addressable', '~> 2.3'
-
-  spec.add_development_dependency 'bundler'
 end

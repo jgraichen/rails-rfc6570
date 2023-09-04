@@ -2,11 +2,11 @@
 
 require 'spec_helper'
 
-RSpec.describe ::Rails::RFC6570::Visitor do
+RSpec.describe Rails::RFC6570::Visitor do
   subject(:accept) { visitor.accept(node) }
 
   let(:visitor) { described_class.new }
-  let(:node) { ::ActionDispatch::Journey::Parser.new.parse(path) }
+  let(:node) { ActionDispatch::Journey::Parser.new.parse(path) }
 
   describe '/' do
     let(:path) { '/' }

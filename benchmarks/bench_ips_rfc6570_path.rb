@@ -9,11 +9,11 @@ route = Rails.application.routes.routes.first
 
 Benchmark.ips do |x|
   x.report('old') do
-    ::Rails::RFC6570.build_url_template(ctx, route, path_only: true)
+    Rails::RFC6570.build_url_template(ctx, route, path_only: true)
   end
 
   x.report('new') do
-    ::Rails::RFC6570.build_url_template(ctx, route, path_only: true)
+    Rails::RFC6570.build_url_template(ctx, route, path_only: true)
   end
 
   x.hold! '/tmp/benchmark-ips-rfc6570-path.log'
