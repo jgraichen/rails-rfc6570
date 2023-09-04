@@ -94,7 +94,7 @@ describe Rails::RFC6570, type: :request do
     before { get '/action', headers: headers }
 
     it 'includes URL helpers' do
-      expect(response.status).to eq 200
+      expect(response).to have_http_status :ok
     end
 
     it 'allows to return and render templates' do

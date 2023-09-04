@@ -8,7 +8,7 @@ module Rails
       PATCH = 0
       STAGE = nil
 
-      STRING = [MAJOR, MINOR, PATCH, STAGE].reject(&:nil?).join('.').freeze
+      STRING = [MAJOR, MINOR, PATCH, STAGE].compact.join('.').freeze
 
       def self.to_s
         STRING

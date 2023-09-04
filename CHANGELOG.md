@@ -20,6 +20,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Breaks
 
+- Require Ruby 2.7+
+
 ## 2.6.0 - (2021-12-16)
 
 ---

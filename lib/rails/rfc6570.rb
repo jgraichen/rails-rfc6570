@@ -39,7 +39,7 @@ module Rails
 
       module NamedRouteCollection
         def to_rfc6570(opts = {})
-          routes.map {|n, r| [n, r.to_rfc6570(opts)] }.to_h
+          routes.to_h {|n, r| [n, r.to_rfc6570(opts)] }
         end
 
         def define_rfc6570_helpers(name, route, mod, set)
