@@ -1,28 +1,22 @@
 # Rails::RFC6570
 
-[![Build Status](https://github.com/jgraichen/rails-rfc6570/workflows/test/badge.svg?event=push)](https://github.com/jgraichen/rails-rfc6570/actions?query=workflow%3Atest)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/jgraichen/rails-rfc6570/test.yml)](https://github.com/jgraichen/rails-rfc6570/actions/workflows/test.yml)
 
-Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 5.0, 5.1, 5.2, 6.0, 6.1 and Ruby 2.5, 2.6, 2.7.
+Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 6.1, 7.0 and Ruby 2.7, 3.0, 3.1, 3.2.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'rails-rfc6570', '~> 2.0'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install rails-rfc6570
+```ruby
+gem 'rails-rfc6570', '~> 2.0'
+```
 
 ## Usage
 
 **Rails::RFC6570** gives you direct access to your Rails routes as RFC6570 URI templates using the [addressable](https://github.com/sporkmonger/addressable) gem. It further patches `Addressable::Template` with a `#as_json` and `#to_s` so that you can simply pass the template objects or even partial expanded templates to your render call, decorator or serializer.
 
-The following examples print a JSON index resource just like https://api.github.com:
+The following examples print a JSON index resource just like `https://api.github.com`:
 
 ```ruby
 class ApplicationController < ActionController::API
@@ -67,9 +61,9 @@ the root action will return something similar to the following JSON:
 
 ```json
 {
-"users": "http://localhost:3000/users{?query,email,active}",
-"user": "http://localhost:3000/users/{id}",
-"root": "http://localhost:3000/"
+  "users": "http://localhost:3000/users{?query,email,active}",
+  "user": "http://localhost:3000/users/{id}",
+  "root": "http://localhost:3000/"
 }
 ```
 
@@ -114,7 +108,7 @@ end
 
 ## Contributing
 
-1. Fork it (http://github.com/jgraichen/rails-routes/fork)
+1. [Fork it](http://github.com/jgraichen/rails-routes/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Add specs
 4. Commit your changes (`git commit -am 'Add some feature'`)
