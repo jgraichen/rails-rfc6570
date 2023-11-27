@@ -4,7 +4,7 @@ module Rails
   module RFC6570
     module VERSION
       MAJOR = 3
-      MINOR = 0
+      MINOR = 1
       PATCH = 0
       STAGE = nil
 
