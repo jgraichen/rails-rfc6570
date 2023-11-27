@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jgraichen/rails-rfc6570/test.yml?logo=github)](https://github.com/jgraichen/rails-rfc6570/actions/workflows/test.yml)
 
-Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 6.1, 7.0 and Ruby 2.7, 3.0, 3.1, 3.2.
+Pragmatic access to your Rails routes as RFC6570 URI templates. Tested with Rails 6.1, 7.0, 7.1 and Ruby 2.7, 3.0, 3.1, 3.2.
 
 ## Installation
 

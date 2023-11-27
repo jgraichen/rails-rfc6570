@@ -1,5 +1,9 @@
 name: test
-on: [push]
+
+on:
+  - push
+  - pull_request
+
 jobs:
   rspec:
     name: Ruby ${{ matrix.ruby }} / ${{ matrix.gemfile }}
@@ -15,6 +19,7 @@ jobs:
         gemfile:
           - rails_6.1.gemfile
           - rails_7.0.gemfile
+          - rails_7.1.gemfile
       fail-fast: False
 
     env:
@@ -32,7 +37,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: "${{ matrix.ruby }}"
           bundler-cache: True
 
       - name: Run rspec
@@ -51,7 +56,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2
+          ruby-version: "3.2"
           bundler-cache: True
 
       - run: bundle exec rubocop --parallel --color
