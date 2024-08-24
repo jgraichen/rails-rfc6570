@@ -6,13 +6,13 @@ gemspec
 
 gem 'rake'
 gem 'rake-release', '~> 1.0'
-gem 'rubocop-config', github: 'jgraichen/rubocop-config', ref: 'v12', require: false
 
 group :development do
   gem 'appraisal'
   gem 'benchmark-ips'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'rubocop-config', github: 'jgraichen/rubocop-config', ref: 'v12', require: false
 end
 
 group :test do
