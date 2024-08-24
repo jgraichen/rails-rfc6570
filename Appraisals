@@ -21,6 +21,13 @@ appraise 'rails-7.1' do
   gem 'railties', '~> 7.1.0', require: 'rails'
 end
 
+appraise 'rails-7.2' do
+  gem 'activesupport', '~> 7.2.0'
+  gem 'activemodel', '~> 7.2.0'
+  gem 'actionpack', '~> 7.2.0'
+  gem 'railties', '~> 7.2.0', require: 'rails'
+end
+
 appraise 'rails-head' do
   gem 'activesupport', github: 'rails/rails'
   gem 'activemodel', github: 'rails/rails'

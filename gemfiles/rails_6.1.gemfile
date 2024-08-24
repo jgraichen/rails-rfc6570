@@ -20,8 +20,8 @@ end
 group :test do
   gem "rspec", "~> 3.0"
   gem "rspec-rails"
-  gem "simplecov-cobertura"
   gem "simplecov"
+  gem "simplecov-cobertura"
 end
 
 gemspec path: "../"
