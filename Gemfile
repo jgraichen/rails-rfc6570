@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'codecov', require: false
-gem 'rspec', '~> 3.0'
-gem 'rspec-rails'
-
 gem 'rake'
 gem 'rake-release', '~> 1.0'
 gem 'rubocop-config', github: 'jgraichen/rubocop-config', ref: 'v11', require: false
@@ -17,4 +13,11 @@ group :development do
   gem 'benchmark-ips'
   gem 'pry'
   gem 'pry-byebug'
+end
+
+group :test do
+  gem 'rspec', '~> 3.0'
+  gem 'rspec-rails'
+  gem 'simplecov'
+  gem 'simplecov-cobertura'
 end

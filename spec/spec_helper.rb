@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-# Coverage
 require 'simplecov'
-SimpleCov.start
+require 'simplecov-cobertura'
 
-if ENV['CI']
-  require 'codecov'
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+SimpleCov.start do
+  add_filter 'spec'
 end
+
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::CoberturaFormatter,
+]
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('dummy/config/environment', __dir__)
