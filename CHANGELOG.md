@@ -9,13 +9,19 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
-- Add support for Rails 7.2
-
 ### Changes
 
 ### Fixes
 
 ### Breaks
+
+## 3.2.0 - (2024-08-24)
+
+---
+
+### New
+
+- Add support for Rails 7.2
 
 ## 3.1.0 - (2023-11-28)
 
