@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
+- Support Rails 8.0 by @jgraichen
+
 ### Changes
 
 ### Fixes
@@ -21,7 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
-- Add support for Rails 7.2
+- Add support for Rails 7.2 by @jgraichen
 
 ## 3.1.0 - (2023-11-28)
 
