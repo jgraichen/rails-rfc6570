@@ -9,13 +9,19 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
-- Support Rails 8.0 by @jgraichen
-
 ### Changes
 
 ### Fixes
 
 ### Breaks
+
+## 3.3.0 - (2024-11-25)
+
+---
+
+### New
+
+- Support Rails 8.0 by @jgraichen
 
 ## 3.2.0 - (2024-08-24)
 
