@@ -30,4 +30,10 @@ end
 
 RSpec.configure do |config|
   config.order = 'random'
+
+  # Use the GitHub Annotations formatter for CI
+  if ENV['GITHUB_ACTIONS'] == 'true'
+    require 'rspec/github'
+    config.add_formatter RSpec::Github::Formatter
+  end
 end

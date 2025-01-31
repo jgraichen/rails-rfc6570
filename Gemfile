@@ -17,6 +17,7 @@ group :development do
 end
 
 group :test do
+  gem 'rspec-github', require: false
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'simplecov-cobertura'
