@@ -53,25 +53,15 @@ module Rails
 
           mod.module_eval do
             define_method(rfc6570_name) do |**opts|
-              ::Rails::RFC6570.build_url_template(self, route, **opts)
+              route.to_rfc6570(**opts, ctx: self)
             end
 
             define_method(rfc6570_url_name) do |**opts|
-              ::Rails::RFC6570.build_url_template(
-                self,
-                route,
-                **opts,
-                path_only: false,
-              )
+              route.to_rfc6570(**opts, ctx: self, path_only: false)
             end
 
             define_method(rfc6570_path_name) do |**opts|
-              ::Rails::RFC6570.build_url_template(
-                self,
-                route,
-                **opts,
-                path_only: true,
-              )
+              route.to_rfc6570(**opts, ctx: self, path_only: true)
             end
           end
 
@@ -133,10 +123,6 @@ module Rails
       ctr.rfc6570_defs[action.to_sym] if ctr.respond_to?(:rfc6570_defs)
     rescue NameError
       nil
-    end
-
-    def build_url_template(ctx, route, **kwargs)
-      route.to_rfc6570(ctx: ctx, **kwargs)
     end
 
     extend self # rubocop:disable Style/ModuleFunction
