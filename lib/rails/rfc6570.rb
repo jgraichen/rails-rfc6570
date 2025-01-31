@@ -32,14 +32,14 @@ module Rails
 
     module Extensions
       module RouteSet
-        def to_rfc6570(opts = {})
-          routes.map {|r| r.to_rfc6570(opts) }
+        def to_rfc6570(**opts)
+          named_routes.to_rfc6570(**opts)
         end
       end
 
       module NamedRouteCollection
-        def to_rfc6570(opts = {})
-          routes.to_h {|n, r| [n, r.to_rfc6570(opts)] }
+        def to_rfc6570(**opts)
+          routes.to_h {|name, route| [name, route.to_rfc6570(**opts)] }
         end
 
         def define_rfc6570_helpers(name, route, mod, set)
