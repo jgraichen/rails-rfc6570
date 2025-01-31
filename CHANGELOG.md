@@ -9,8 +9,6 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
-- Support for Ruby 3.4
-
 ### Changes
 
 - Optimize named `*_rfc6570` helpers by removing unnecessary indirection
@@ -21,6 +19,23 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 - Fix up `RouteSet#to_rfc6570` and `NamedRouteCollection#to_rfc6570`
 
 ### Breaks
+
+## 3.4.0 - (2025-01-31)
+
+---
+
+### New
+
+- Support for Ruby 3.4
+
+### Changes
+
+- Optimize named `*_rfc6570` helpers by removing unnecessary indirection
+- Optimize `#rfc6570_routes` and `#rfc6570_route` helpers
+
+### Fixes
+
+- Fix up `RouteSet#to_rfc6570` and `NamedRouteCollection#to_rfc6570`
 
 ## 3.3.0 - (2024-11-25)
 
