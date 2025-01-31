@@ -17,6 +17,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Fixes
 
+- Fix up `RouteSet#to_rfc6570` and `NamedRouteCollection#to_rfc6570`
+
 ### Breaks
 
 ## 3.3.0 - (2024-11-25)
