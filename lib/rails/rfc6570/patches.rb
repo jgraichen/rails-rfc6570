@@ -16,7 +16,7 @@ module Addressable
     end
 
     def as_json(*)
-      pattern
+      to_s
     end
   end
 end
