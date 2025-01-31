@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Changes
 
+- Optimize named `*_rfc6570` helpers by removing unnecessary indirection
+
 ### Fixes
 
 ### Breaks
