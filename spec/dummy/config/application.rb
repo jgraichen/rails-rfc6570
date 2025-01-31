@@ -1,5 +1,10 @@
 require File.expand_path('../boot', __FILE__)
 
+# Workaround for missing require "logger" in some Rails versions.
+#
+# See https://github.com/rails/rails/pull/54264.
+require 'logger'
+
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
@@ -19,4 +24,3 @@ module Dummy
     # config.i18n.default_locale = :de
   end
 end
-
