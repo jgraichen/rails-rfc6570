@@ -88,16 +88,11 @@ module Rails
 
     module Helper
       def rfc6570_routes(**opts)
-        routes = {}
-        Rails.application.routes.named_routes.names.each do |key|
-          routes[key] = rfc6570_route(key, **opts)
-        end
-
-        routes
+        _routes.named_routes.to_rfc6570(**opts, ctx: self)
       end
 
       def rfc6570_route(name, **opts)
-        route = Rails.application.routes.named_routes[name]
+        route = _routes.named_routes[name]
         raise KeyError.new "No named routed for `#{name}'." unless route
 
         route.to_rfc6570(**opts, ctx: self)
@@ -120,7 +115,7 @@ module Rails
 
     def params_for(controller, action)
       ctr = "#{controller.camelize}Controller".constantize
-      ctr.rfc6570_defs[action.to_sym] if ctr.respond_to?(:rfc6570_defs)
+      ctr.rfc6570_params_for(action.to_sym) if ctr.respond_to?(:rfc6570_params_for)
     rescue NameError
       nil
     end
