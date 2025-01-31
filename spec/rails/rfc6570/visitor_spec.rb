@@ -20,10 +20,22 @@ RSpec.describe Rails::RFC6570::Visitor do
     it { is_expected.to eq %w[/ path / path] }
   end
 
+  describe '/path.:format' do
+    let(:path) { '/path.:format' }
+
+    it { is_expected.to eq %w[/ path . {format}] }
+  end
+
   describe '/:title' do
     let(:path) { '/:title' }
 
     it { is_expected.to eq %w[/ {title}] }
+  end
+
+  describe '/:title.html' do
+    let(:path) { '/:title.html' }
+
+    it { is_expected.to eq %w[/ {title} . html] }
   end
 
   describe '/:title(.:format)' do
