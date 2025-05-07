@@ -21,7 +21,7 @@ module Rails
 
           if controller.present? && action.present?
             params = ::Rails::RFC6570.params_for(controller, action)
-            parts << ("{?#{params.join(',')}}") if params&.any?
+            parts << "{?#{params.join(',')}}" if params&.any?
           end
         end
 
