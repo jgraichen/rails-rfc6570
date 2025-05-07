@@ -13,7 +13,7 @@ group :development do
   gem 'benchmark-ips'
   gem 'pry'
   gem 'pry-byebug'
-  gem 'rubocop-config', github: 'jgraichen/rubocop-config', tag: 'v13', require: false
+  gem 'rubocop-config', github: 'jgraichen/rubocop-config', tag: 'v14', require: false
 end
 
 group :test do
