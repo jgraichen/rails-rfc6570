@@ -11,8 +11,6 @@ gem 'rspec', '~> 3.0'
 group :development do
   gem 'appraisal'
   gem 'benchmark-ips'
-  gem 'pry'
-  gem 'pry-byebug'
   gem 'rubocop-config', github: 'jgraichen/rubocop-config', tag: 'v14', require: false
 end
 
