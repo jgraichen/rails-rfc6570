@@ -25,19 +25,16 @@ module Rails
           end
         end
 
-        if kwargs.fetch(:path_only, false)
-          ::Addressable::Template.new parts.join
-        else
-          options = ctx.url_options.merge(kwargs)
-          options[:path] = parts.join
+        options = ctx.url_options.merge(kwargs)
+        options[:path] = parts.join
+        options[:only_path] = kwargs.fetch(:path_only, false)
 
-          if (osn = options.delete(:original_script_name))
-            options[:script_name] = osn + options[:script_name]
-          end
-
-          ::Addressable::Template.new \
-            ActionDispatch::Http::URL.url_for(options)
+        if (osn = options.delete(:original_script_name))
+          options[:script_name] = osn + options[:script_name]
         end
+
+        ::Addressable::Template.new \
+          ActionDispatch::Http::URL.url_for(options)
       end
 
       def symbol(node, prefix: nil, suffix: nil)
