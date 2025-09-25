@@ -6,6 +6,28 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
 end
 
+module DummyEngine
+  class Engine < ::Rails::Engine
+    isolate_namespace DummyEngine
+
+    routes.draw do
+      get '/action' => 'engine#action', as: :action
+    end
+  end
+
+  class EngineController < ActionController::API
+    rfc6570_params action: %i[param3]
+    def action
+      render json: {
+        ref: action_path,
+        template: action_rfc6570,
+        template_url: action_url_rfc6570,
+        template_path: action_path_rfc6570,
+      }
+    end
+  end
+end
+
 Dummy::Application.routes.draw do
   get '/' => 'api#index', as: :root
 
@@ -20,6 +42,8 @@ Dummy::Application.routes.draw do
   get '/path/*capture/:title' => 'api#index', as: :test4
   get '/path(/*capture)/:title' => 'api#index', as: :test5
   get '/path(/*capture)(/:title)' => 'api#index', as: :test6
+
+  mount DummyEngine::Engine => '/dummy_engine'
 end
 
 class APIController < ApplicationController
@@ -58,7 +82,7 @@ describe Rails::RFC6570, type: :request do
 
     it 'returns list of all parsed and named routes' do
       expect(json.keys).to match_array \
-        %w[root action test1 test2 test3 test4 test5 test6]
+        %w[root action test1 test2 test3 test4 test5 test6 dummy_engine]
     end
 
     it 'includes known parameters' do
@@ -87,6 +111,10 @@ describe Rails::RFC6570, type: :request do
 
     it 'parses splash operator (III)' do
       expect(json['test6']).to eq "#{host}/path{/capture*}{/title}"
+    end
+
+    it 'includes the engine mount point root only' do
+      expect(json['dummy_engine']).to eq "#{host}/dummy_engine"
     end
   end
 
@@ -132,6 +160,26 @@ describe Rails::RFC6570, type: :request do
       it 'prefixes origin script name' do
         expect(json['template']).to eq "#{host}/fuubar/action{?param1,param2}"
       end
+    end
+  end
+
+  context 'mounted Rails engine' do
+    before { get '/dummy_engine/action', headers: headers }
+
+    it 'includes URL helpers' do
+      expect(response).to have_http_status :ok
+    end
+
+    it 'allows to return and render templates' do
+      expect(json['template']).to eq "#{host}/dummy_engine/action{?param3}"
+    end
+
+    it 'allows to return and render url templates' do
+      expect(json['template_url']).to eq "#{host}/dummy_engine/action{?param3}"
+    end
+
+    it 'allows to return and render path templates' do
+      expect(json['template_path']).to eq '/dummy_engine/action{?param3}'
     end
   end
 end
