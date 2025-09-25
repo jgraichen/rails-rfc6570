@@ -11,15 +11,17 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Changes
 
-- Optimize named `*_rfc6570` helpers by removing unnecessary indirection
-- Optimize `#rfc6570_routes` and `#rfc6570_route` helpers
-
 ### Fixes
 
-- Fix up `RouteSet#to_rfc6570` and `NamedRouteCollection#to_rfc6570`
-- Fix up `*_path_rfc6570` to include Rails Engines mount point.
-
 ### Breaks
+
+## 3.5.0 - (2025-09-26)
+
+---
+
+### New
+
+- Support `*_path_rfc6570` to include Rails Engines mount point.
 
 ## 3.4.0 - (2025-01-31)
 
