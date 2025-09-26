@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### Fixes
 
+- Fix up `*_rfc6570` to support a Hash argument. Required when calling template from Rails Engine in the main app.
+
 ### Breaks
 
 ## 3.5.0 - (2025-09-26)

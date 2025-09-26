@@ -52,15 +52,15 @@ module Rails
           end
 
           mod.module_eval do
-            define_method(rfc6570_name) do |**opts|
+            define_method(rfc6570_name) do |opts = {}|
               route.to_rfc6570(**opts, ctx: self)
             end
 
-            define_method(rfc6570_url_name) do |**opts|
+            define_method(rfc6570_url_name) do |opts = {}|
               route.to_rfc6570(**opts, ctx: self, path_only: false)
             end
 
-            define_method(rfc6570_path_name) do |**opts|
+            define_method(rfc6570_path_name) do |opts = {}|
               route.to_rfc6570(**opts, ctx: self, path_only: true)
             end
           end
