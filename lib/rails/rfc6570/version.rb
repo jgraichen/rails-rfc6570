@@ -5,7 +5,7 @@ module Rails
     module VERSION
       MAJOR = 3
       MINOR = 5
-      PATCH = 0
+      PATCH = 1
       STAGE = nil
 
       STRING = [MAJOR, MINOR, PATCH, STAGE].compact.join('.').freeze

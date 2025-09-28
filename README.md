@@ -5,14 +5,14 @@
 
 Pragmatic access to your Rails routes as RFC6570 URI templates.
 
-Tested with Rails 6.1, 7.0, 7.1, 7.2 and Ruby 2.7, 3.0, 3.1, 3.2, 3.3, and 3.4.
+Tested with Rails 6.1, 7.0, 7.1, 7.2, 8.0 and Ruby 2.7, 3.0, 3.1, 3.2, 3.3, and 3.4.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails-rfc6570', '~> 3.0'
+gem 'rails-rfc6570', '~> 3.5'
 ```
 
 ## Usage
@@ -92,7 +92,7 @@ end
 
 This gem does not support every construct possible with route matchers especially nested groups cannot be expressed in URI templates. They are expanded into separate groups. It also makes some assumptions when converting splat matchers like swallowing a multiple slashes. An error is raised when routes with OR-clauses are tried to be converted.
 
-You can also combine **Rails::RFC6570** with [rack-link_headers](https://github.com/jgraichen/rack-link_headers) and provide hypermedia linking everywhere!
+You can also combine **Rails::RFC6570** with [`rack-link_headers`](https://github.com/jgraichen/rack-link_headers) and provide hypermedia linking everywhere!
 
 ```ruby
 class UserController < ApplicationController
