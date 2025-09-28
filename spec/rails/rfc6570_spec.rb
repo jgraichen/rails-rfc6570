@@ -61,6 +61,9 @@ class APIController < ApplicationController
       partial: test6_rfc6570.partial_expand(title: 'TITLE'),
       ignore: test6_rfc6570(ignore: %w[title]),
       expand: test6_rfc6570.expand(capture: %w[a b], title: 'TITLE'),
+      engine_template: dummy_engine.action_rfc6570,
+      engine_template_url: dummy_engine.action_url_rfc6570,
+      engine_template_path: dummy_engine.action_path_rfc6570,
     }
   end
 
@@ -147,6 +150,18 @@ describe Rails::RFC6570, type: :request do
 
     it 'allows to return and render expanded templates (II)' do
       expect(json['expand']).to eq "#{host}/path/a/b/TITLE"
+    end
+
+    it 'allows to return and render a rails engines templates' do
+      expect(json['engine_template']).to eq "#{host}/dummy_engine/action{?param3}"
+    end
+
+    it 'allows to return and render a rails engines url templates' do
+      expect(json['engine_template_url']).to eq "#{host}/dummy_engine/action{?param3}"
+    end
+
+    it 'allows to return and render a rails engines path templates' do
+      expect(json['engine_template_path']).to eq '/dummy_engine/action{?param3}'
     end
 
     context 'with origin_script_name' do
