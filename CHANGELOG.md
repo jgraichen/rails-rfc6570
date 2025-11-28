@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
+- Add support for Rails 8.1
+
 ### Changes
 
 ### Fixes
