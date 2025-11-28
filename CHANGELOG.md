@@ -9,13 +9,19 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
-- Add support for Rails 8.1
-
 ### Changes
 
 ### Fixes
 
 ### Breaks
+
+## 3.6.0 - (2025-11-28)
+
+---
+
+### New
+
+- Add support for Rails 8.1
 
 ## 3.5.1 - (2025-09-28)
 

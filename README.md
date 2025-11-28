@@ -12,7 +12,7 @@ Tested with Rails 6.1, 7.0, 7.1, 7.2, 8.0, 8.1, and Ruby 2.7, 3.0, 3.1, 3.2, 3.3
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails-rfc6570', '~> 3.5'
+gem 'rails-rfc6570', '~> 3.6'
 ```
 
 ## Usage
