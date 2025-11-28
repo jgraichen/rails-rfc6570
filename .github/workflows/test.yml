@@ -19,32 +19,39 @@ jobs:
           - "3.0"
           - "2.7"
         gemfile:
-          - rails_6.1.gemfile
-          - rails_7.0.gemfile
-          - rails_7.1.gemfile
-          - rails_7.2.gemfile
-          - rails_8.0.gemfile
+          - rails_6.1
+          - rails_7.0
+          - rails_7.1
+          - rails_7.2
+          - rails_8.0
+          - rails_8.1
         exclude:
-          - gemfile: rails_8.0.gemfile
+          - gemfile: rails_8.1
             ruby: "3.1"
-          - gemfile: rails_8.0.gemfile
+          - gemfile: rails_8.1
             ruby: "3.0"
-          - gemfile: rails_8.0.gemfile
+          - gemfile: rails_8.1
             ruby: "2.7"
-          - gemfile: rails_7.2.gemfile
+          - gemfile: rails_8.0
+            ruby: "3.1"
+          - gemfile: rails_8.0
             ruby: "3.0"
-          - gemfile: rails_7.2.gemfile
+          - gemfile: rails_8.0
             ruby: "2.7"
-          - gemfile: rails_7.1.gemfile
+          - gemfile: rails_7.2
+            ruby: "3.0"
+          - gemfile: rails_7.2
+            ruby: "2.7"
+          - gemfile: rails_7.1
             ruby: "3.4"
-          - gemfile: rails_7.0.gemfile
+          - gemfile: rails_7.0
             ruby: "3.4"
-          - gemfile: rails_6.1.gemfile
+          - gemfile: rails_6.1
             ruby: "3.4"
       fail-fast: False
 
     env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 10
       BUNDLE_WITHOUT: development
@@ -62,7 +69,7 @@ jobs:
           bundler-cache: true
 
       - run: |
-          bundle exec rspec --color --format documentation
+          bundle exec rspec --force-color --format documentation
 
       - uses: codecov/codecov-action@v5
         with:
