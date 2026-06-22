@@ -5,6 +5,7 @@ require File.expand_path('../spec/dummy/config/environment', __dir__)
 
 class TestController
   extend ::Rails::RFC6570::ControllerExtension
+
   rfc6570_params index: %w[queryA queryB]
 end
 
