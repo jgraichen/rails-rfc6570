@@ -14,3 +14,9 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+# Must be defined here, as newer Rails versions freeze the inflections
+# after initialization.
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.acronym 'API'
+end

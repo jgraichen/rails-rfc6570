@@ -2,10 +2,6 @@
 
 require 'spec_helper'
 
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'API'
-end
-
 module DummyEngine
   class Engine < ::Rails::Engine
     isolate_namespace DummyEngine
