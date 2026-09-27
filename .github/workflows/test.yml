@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         ruby:
+          - "4.0"
           - "3.4"
           - "3.3"
           - "3.2"
@@ -42,10 +43,8 @@ jobs:
             ruby: "3.0"
           - gemfile: rails_7.2
             ruby: "2.7"
-          - gemfile: rails_7.1
-            ruby: "3.4"
-          - gemfile: rails_7.0
-            ruby: "3.4"
+          - gemfile: rails_6.1
+            ruby: "4.0"
           - gemfile: rails_6.1
             ruby: "3.4"
       fail-fast: False

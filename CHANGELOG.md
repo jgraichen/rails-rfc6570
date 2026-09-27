@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a Ch
 
 ### New
 
+- Support for Ruby 4.0
+
 ### Changes
 
 ### Fixes
